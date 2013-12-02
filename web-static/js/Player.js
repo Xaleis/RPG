@@ -16,6 +16,17 @@ var Player = function(){
 	
 	this.spriteName = "/RPG-resources/img/sprite/clotharmor.png";
     this.weaponName = "/RPG-resources/img/sprite/sword1.png";
+	
+	MAX_LEVEL = 50; // Level max
+	XP_INCREMENT = 500; // Amount of XP that is added to the amount of XP required for a level, after each level progression
+	
+	this.Level = 1; // Current level
+	this.XP = 0; // Total amount of gathered XP
+	this.XPGatheredForNextLevel = 0; // Amount of XP gathered for the next level
+	this.XPRequiredForNextLevel = 0; // Amount of XP required for the next level
+	
+	this.HealthMax = 100;
+	this.Health = this.HealthMax;
 
 	/*this.spriteList = {
 		"idle-left": new Sprite(this.$elm, "idle-left", "/cours-web-static/img/sprite/revert-idle-1-2-1.png", 2048, 256, 16, 2, true),
@@ -114,3 +125,70 @@ Player.prototype.onKeyDown = function(k){
 Player.prototype.onKeyUp = function(k){
 	this.keyList[k.which] = false;
 };
+
+Player.prototype.LevelUp = function(){
+    this.Level++;
+
+    this.Health = this.HealthMax;
+};
+
+/* fonction UDK à retranscrire
+function DeadPlayer()
+{
+    XP = XP - (Level * 100);
+    if(Level == 1 && XP < 0)
+    {
+        XP = 0;
+    }
+    CalculateLevelProgress();
+    if(XPGatheredForNextLevel < 0)
+    {
+        Level--;
+        vitality -= 5;
+        SetLife();
+        strength -= 5;
+        agility -= 5;
+        
+        CalculateLevelProgress();
+    }
+}
+
+function GiveXP(int amount)
+{
+    XP += amount;
+
+    CalculateLevelProgress();
+
+    while (XPGatheredForNextLevel >= XPRequiredForNextLevel && Level < MAX_LEVEL)
+    {
+        LevelUp();
+
+        // Recalculate level progress after leveling up
+        CalculateLevelProgress();
+    }
+}
+
+private function CalculateLevelProgress()
+{
+    local int XPToCurrentLevel; // Total amount of XP gathered with current and previous levels
+    local int tmp;
+    
+    tmp = Level-1;
+    
+    while(tmp != 0)
+    {
+        XPToCurrentLevel += tmp * XP_INCREMENT * sqrt(tmp);
+        tmp--;
+    }
+    
+    XPRequiredForNextLevel = Level * XP_INCREMENT * sqrt(Level);
+    
+    if(Level == MAX_LEVEL && XPGatheredForNextLevel > XPRequiredForNextLevel)
+    {
+        XP = XPRequiredForNextLevel + XPToCurrentLevel;
+    }
+    
+    XPGatheredForNextLevel = XP - XPToCurrentLevel;
+    
+    experience = (float(XPGatheredForNextLevel) * 100) / float(XPRequiredForNextLevel);
+}*/
