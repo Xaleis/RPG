@@ -1,11 +1,4 @@
-var Character = function(parent){
-	if(typeof(parent) == "undefined"){
-		return;
-	}
-	this.parent = parent;
-	this.$elm = $("<div>").addClass("character");
-
-	this.parent.append(this.$elm);
+var Character = function(){
 
     this.revertDirection = false;
 
@@ -13,6 +6,12 @@ var Character = function(parent){
 	this.currentSprite = false;
 	
 	this.positionListenerList = [];
+	
+	this.name = "";
+	this.level = 1;
+	this.exp = 0;
+	this.gold = 0;
+	this.inventory = [];
 };
 
 Character.prototype.addPositionListener = function(listener){
@@ -23,7 +22,7 @@ Character.prototype.setSprite = function(anim, onComplete){
 	this.lastAnimId = anim;
 	var spriteId = anim + "-" + (this.revertDirection?"left":"right");
 	//console.log("new anim " + spriteId);
-	if(this.currentSprite != this.spriteList[spriteId]){
+	/*if(this.currentSprite != this.spriteList[spriteId]){
 		if(!this.currentSprite || this.currentSprite.loop || this.currentSprite.currentFrame == this.currentSprite.frameCount - 1){
 			if(this.currentSprite){
 				this.currentSprite.stop();
@@ -36,7 +35,7 @@ Character.prototype.setSprite = function(anim, onComplete){
         }else{
             this.nextSprite = anim;
         }
-	}
+	}*/
 };
 
 Character.prototype.FireEvent = function(){
@@ -48,7 +47,7 @@ Character.prototype.FireEvent = function(){
 Character.prototype.setPosition = function(x, y){
 	this.x = parseInt(x);
 	this.y = parseInt(y);
-	this.$elm.css({top: this.y + "px", left: this.x + "px"});
+	//this.$elm.css({top: this.y + "px", left: this.x + "px"});
 	
 	this.FireEvent();
 };

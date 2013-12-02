@@ -1,6 +1,6 @@
-var Player = function(parent){
+var Player = function(){
 	var self = this;
-	Character.call(this, parent);
+	Character.call(this);
 	
 	$(document).keyup(function(e){
 		self.onKeyUp(e);
@@ -14,7 +14,7 @@ var Player = function(parent){
 		y: 200
 	};
 
-	this.spriteList = {
+	/*this.spriteList = {
 		"idle-left": new Sprite(this.$elm, "idle-left", "/cours-web-static/img/sprite/revert-idle-1-2-1.png", 2048, 256, 16, 2, true),
 		"idle-right": new Sprite(this.$elm, "idle-right", "/cours-web-static/img/sprite/idle-1-2-1.png", 2048, 256, 16, 2, true),
 		"attack-left": new Sprite(this.$elm, "attack-left", "/cours-web-static/img/sprite/revert-attack-1-2-1.png", 2048, 128, 16, 1, false),
@@ -27,7 +27,7 @@ var Player = function(parent){
 	this.spriteList["move-left"].frameCount = 6;
 	this.spriteList["move-right"].frameCount = 6;
 	this.revertDirection = false;
-	this.setSprite("idle");
+	this.setSprite("idle");*/
 };
 Player.MIN_Y = 1455;
 Player.MAX_Y = 1920;
