@@ -13,6 +13,9 @@ var Player = function(){
 		x: 600,
 		y: 200
 	};
+	
+	this.spriteName = "/RPG-resources/img/sprite/clotharmor.png";
+    this.weaponName = "/RPG-resources/img/sprite/sword1.png";
 
 	/*this.spriteList = {
 		"idle-left": new Sprite(this.$elm, "idle-left", "/cours-web-static/img/sprite/revert-idle-1-2-1.png", 2048, 256, 16, 2, true),

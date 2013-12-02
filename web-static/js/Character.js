@@ -6,12 +6,6 @@ var Character = function(){
 	this.currentSprite = false;
 	
 	this.positionListenerList = [];
-	
-	this.name = "";
-	this.level = 1;
-	this.exp = 0;
-	this.gold = 0;
-	this.inventory = [];
 };
 
 Character.prototype.addPositionListener = function(listener){
