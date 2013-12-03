@@ -17,13 +17,11 @@ var Player = function(){
 	this.spriteName = "/RPG-resources/img/sprite/clotharmor.png";
     this.weaponName = "/RPG-resources/img/sprite/sword1.png";
 	
-	MAX_LEVEL = 50; // Level max
-	XP_INCREMENT = 500; // Amount of XP that is added to the amount of XP required for a level, after each level progression
-	
 	this.Level = 1; // Current level
 	this.XP = 0; // Total amount of gathered XP
 	this.XPGatheredForNextLevel = 0; // Amount of XP gathered for the next level
 	this.XPRequiredForNextLevel = 0; // Amount of XP required for the next level
+	this.experience = 0;
 	
 	this.HealthMax = 100;
 	this.Health = this.HealthMax;
@@ -43,6 +41,9 @@ var Player = function(){
 	this.revertDirection = false;
 	this.setSprite("idle");*/
 };
+Player.MAX_LEVEL = 50; // Level max
+Player.XP_INCREMENT = 500; // Amount of XP that is added to the amount of XP required for a level, after each level progression
+
 Player.MIN_Y = 1455;
 Player.MAX_Y = 1920;
 Player.MIN_SCALE = 0.5;
@@ -132,63 +133,58 @@ Player.prototype.LevelUp = function(){
     this.Health = this.HealthMax;
 };
 
-/* fonction UDK à retranscrire
-function DeadPlayer()
+Player.prototype.DeadPlayer = function()
 {
-    XP = XP - (Level * 100);
-    if(Level == 1 && XP < 0)
+    this.XP = this.XP - (this.Level * 100);
+    if(this.Level == 1 && this.XP < 0)
     {
-        XP = 0;
+        this.XP = 0;
     }
-    CalculateLevelProgress();
-    if(XPGatheredForNextLevel < 0)
+    this.CalculateLevelProgress();
+    if(this.XPGatheredForNextLevel < 0)
     {
-        Level--;
-        vitality -= 5;
-        SetLife();
-        strength -= 5;
-        agility -= 5;
+        this.Level--;
         
-        CalculateLevelProgress();
+        this.CalculateLevelProgress();
     }
-}
+};
 
-function GiveXP(int amount)
+Player.prototype.GiveXP = function(amount)
 {
-    XP += amount;
+    this.XP += amount;
 
-    CalculateLevelProgress();
+    this.CalculateLevelProgress();
 
-    while (XPGatheredForNextLevel >= XPRequiredForNextLevel && Level < MAX_LEVEL)
+    while (this.XPGatheredForNextLevel >= this.XPRequiredForNextLevel && this.Level < Player.MAX_LEVEL)
     {
-        LevelUp();
+        this.LevelUp();
 
         // Recalculate level progress after leveling up
-        CalculateLevelProgress();
+        this.CalculateLevelProgress();
     }
-}
+};
 
-private function CalculateLevelProgress()
+Player.prototype.CalculateLevelProgress = function()
 {
-    local int XPToCurrentLevel; // Total amount of XP gathered with current and previous levels
-    local int tmp;
+    var XPToCurrentLevel; // Total amount of XP gathered with current and previous levels
+    var tmp;
     
-    tmp = Level-1;
+    tmp = this.Level-1;
     
     while(tmp != 0)
     {
-        XPToCurrentLevel += tmp * XP_INCREMENT * sqrt(tmp);
+        XPToCurrentLevel += tmp * Player.XP_INCREMENT * sqrt(tmp);
         tmp--;
     }
     
-    XPRequiredForNextLevel = Level * XP_INCREMENT * sqrt(Level);
+    this.XPRequiredForNextLevel = this.Level * Player.XP_INCREMENT * sqrt(this.Level);
     
-    if(Level == MAX_LEVEL && XPGatheredForNextLevel > XPRequiredForNextLevel)
+    if(this.Level == Player.MAX_LEVEL && this.XPGatheredForNextLevel > this.XPRequiredForNextLevel)
     {
-        XP = XPRequiredForNextLevel + XPToCurrentLevel;
+        this.XP = this.XPRequiredForNextLevel + XPToCurrentLevel;
     }
     
-    XPGatheredForNextLevel = XP - XPToCurrentLevel;
+    this.XPGatheredForNextLevel = this.XP - XPToCurrentLevel;
     
-    experience = (float(XPGatheredForNextLevel) * 100) / float(XPRequiredForNextLevel);
-}*/
+    this.experience = (float(this.XPGatheredForNextLevel) * 100) / float(this.XPRequiredForNextLevel);
+};
