@@ -14,8 +14,8 @@ var Player = function(){
 		y: 200
 	};
 	
-	this.spriteName = "/RPG-resources/img/sprite/clotharmor.png";
-    this.weaponName = "/RPG-resources/img/sprite/sword1.png";
+	this.spriteName = "clotharmor";
+    this.weaponName = "sword1";
 	
 	this.Level = 1; // Current level
 	this.XP = 0; // Total amount of gathered XP
@@ -23,23 +23,16 @@ var Player = function(){
 	this.XPRequiredForNextLevel = 0; // Amount of XP required for the next level
 	this.experience = 0;
 	
-	this.HealthMax = 100;
-	this.Health = this.HealthMax;
-
-	/*this.spriteList = {
-		"idle-left": new Sprite(this.$elm, "idle-left", "/cours-web-static/img/sprite/revert-idle-1-2-1.png", 2048, 256, 16, 2, true),
-		"idle-right": new Sprite(this.$elm, "idle-right", "/cours-web-static/img/sprite/idle-1-2-1.png", 2048, 256, 16, 2, true),
-		"attack-left": new Sprite(this.$elm, "attack-left", "/cours-web-static/img/sprite/revert-attack-1-2-1.png", 2048, 128, 16, 1, false),
-		"attack-right": new Sprite(this.$elm, "attack-right", "/cours-web-static/img/sprite/attack-1-2-1.png", 2048, 128, 16, 1, false),
-		"move-left": new Sprite(this.$elm, "move-left", "/cours-web-static/img/sprite/revert-move-1-2-1.png", 896, 128, 7, 1, true),
-		"move-right": new Sprite(this.$elm, "move-right", "/cours-web-static/img/sprite/move-1-2-1.png", 896, 128, 7, 1, true)
-	};
-
-	this.keyList = {};
-	this.spriteList["move-left"].frameCount = 6;
-	this.spriteList["move-right"].frameCount = 6;
-	this.revertDirection = false;
-	this.setSprite("idle");*/
+	this.centerX = 32;
+	this.centerY = 32;
+	
+	this.createSprite("idle",assetManager.getImage("player-idle"), 2048, 256, 16, 2, true);
+	this.createSprite("attack",assetManager.getImage("player-attack"), 2048, 128, 16, 1, false);
+	this.createSprite("move",assetManager.getImage("player-move"), 896, 128, 7, 1, true);
+	
+	for(var i in this.spriteList) {
+		this.spriteList[i].setCenter(this.centerX, this.centerY);
+	}
 };
 Player.MAX_LEVEL = 50; // Level max
 Player.XP_INCREMENT = 500; // Amount of XP that is added to the amount of XP required for a level, after each level progression
@@ -86,18 +79,22 @@ Player.prototype.update = function(deltaTime){
 				case "113", "81":
 					this.revertDirection = true;
 					move.x = -1;
+					//this.direction = "west";
 				break;
 				case "115", "83":
-					//this.revertDirection = false;
+					this.revertDirection = false;
 					move.y = 1;
+					//this.direction = "south";
 				break;
 				case "100", "68":
 					this.revertDirection = false;
 					move.x = 1;
+					//this.direction = "est";
 				break;
 				case "122", "90":
-					//this.revertDirection = true;
+					this.revertDirection = false;
 					move.y = -1;
+					//this.direction = "north";
 				break;
 			}
 		}

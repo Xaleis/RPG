@@ -6,6 +6,10 @@ var Character = function(){
 	this.currentSprite = false;
 	
 	this.positionListenerList = [];
+	
+	this.HealthMax = 100;
+	this.Health = this.HealthMax;
+	this.gold = 0;
 };
 
 Character.prototype.addPositionListener = function(listener){
@@ -14,9 +18,9 @@ Character.prototype.addPositionListener = function(listener){
 
 Character.prototype.setSprite = function(anim, onComplete){
 	this.lastAnimId = anim;
-	var spriteId = anim + "-" + (this.revertDirection?"left":"right");
+	var spriteId = anim;
 	//console.log("new anim " + spriteId);
-	/*if(this.currentSprite != this.spriteList[spriteId]){
+	if(this.currentSprite != this.spriteList[spriteId]){
 		if(!this.currentSprite || this.currentSprite.loop || this.currentSprite.currentFrame == this.currentSprite.frameCount - 1){
 			if(this.currentSprite){
 				this.currentSprite.stop();
@@ -29,8 +33,26 @@ Character.prototype.setSprite = function(anim, onComplete){
         }else{
             this.nextSprite = anim;
         }
-	}*/
+	}
 };
+
+Character.prototype.render = function(g){
+	if(this.currentSprite) {
+		g.save();
+		g.translate(this.x, this.y);
+		this.currentSprite.render(g, this.revertDirection);
+		//g.translate(-this.x, -this.y);
+		g.restore();
+	}
+	g.save();
+	g.translate(10, 10);
+	g.fillStyle = "red";
+	g.fillRect(0, 0, 100, 20);
+	g.drawImage("", 0, 0);
+	g.font = "20px Arial";
+	g.fillText("Player",0,0);
+	g.restore();
+}
 
 Character.prototype.FireEvent = function(){
 	for (var i in this.positionListenerList){
@@ -66,4 +88,8 @@ Character.prototype.moveTo = function(x, y){
 };
 Character.prototype.move = function(x, y){
 	this.moveTo(this.x + x, this.y + y);
+};
+
+Character.prototype.createSprite = function(id, url, width, height, colCount, rowCount, loop) {
+	this.spriteList[id] = new Sprite(id, url, width, height, colCount, rowCount, loop);
 };
