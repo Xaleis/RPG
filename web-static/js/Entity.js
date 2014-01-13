@@ -2,7 +2,6 @@ var Entity = function() {
 	this.name = "";
 	this.x = 0;
 	this.y = 0;
-	this.gold = 0;
 }
 
 Entity.prototype.setName = function(x){

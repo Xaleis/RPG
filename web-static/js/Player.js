@@ -1,4 +1,4 @@
-var Player = function(){
+var Player = function(assetManager){
 	var self = this;
 	Character.call(this);
 	
@@ -14,32 +14,48 @@ var Player = function(){
 		y: 200
 	};
 	
-	this.spriteName = "/RPG-resources/img/sprite/clotharmor.png";
-    this.weaponName = "/RPG-resources/img/sprite/sword1.png";
+	//this.spriteName = "/RPG-static/img/sprite/clotharmor.png";
+    //this.weaponName = "/RPG-static/img/sprite/sword1.png";
 	
 	this.Level = 1; // Current level
 	this.XP = 0; // Total amount of gathered XP
 	this.XPGatheredForNextLevel = 0; // Amount of XP gathered for the next level
 	this.XPRequiredForNextLevel = 0; // Amount of XP required for the next level
 	this.experience = 0;
+
+	this.centerX = 32;
+	this.centerY = 32;
+
+	/* Player */
+	this.createSprite("attack",assetManager.getImage("player"), 320, 576, 5, 0, 9, false);
+	this.createSprite("move",assetManager.getImage("player"), 320, 576, 4, 1, 9, true);
+	this.createSprite("idle",assetManager.getImage("player"), 320, 576, 2, 2, 9, true);
+	this.createSprite("attack-up",assetManager.getImage("player"), 320, 576, 5, 3, 9, false);
+	this.createSprite("move-up",assetManager.getImage("player"), 320, 576, 4, 4, 9, true);
+	this.createSprite("idle-up",assetManager.getImage("player"), 320, 576, 2, 5, 9, true);
+	this.createSprite("attack-down",assetManager.getImage("player"), 320, 576, 5, 6, 9, false);
+	this.createSprite("move-down",assetManager.getImage("player"), 320, 576, 4, 7, 9, true);
+	this.createSprite("idle-down",assetManager.getImage("player"), 320, 576, 2, 8, 9, true);
 	
-	this.HealthMax = 100;
-	this.Health = this.HealthMax;
-
-	/*this.spriteList = {
-		"idle-left": new Sprite(this.$elm, "idle-left", "/cours-web-static/img/sprite/revert-idle-1-2-1.png", 2048, 256, 16, 2, true),
-		"idle-right": new Sprite(this.$elm, "idle-right", "/cours-web-static/img/sprite/idle-1-2-1.png", 2048, 256, 16, 2, true),
-		"attack-left": new Sprite(this.$elm, "attack-left", "/cours-web-static/img/sprite/revert-attack-1-2-1.png", 2048, 128, 16, 1, false),
-		"attack-right": new Sprite(this.$elm, "attack-right", "/cours-web-static/img/sprite/attack-1-2-1.png", 2048, 128, 16, 1, false),
-		"move-left": new Sprite(this.$elm, "move-left", "/cours-web-static/img/sprite/revert-move-1-2-1.png", 896, 128, 7, 1, true),
-		"move-right": new Sprite(this.$elm, "move-right", "/cours-web-static/img/sprite/move-1-2-1.png", 896, 128, 7, 1, true)
-	};
-
+	/* Player equipment */
+	this.createSprite("sword-attack",assetManager.getImage("sword"), 320, 576, 5, 0, 9, false);
+	this.createSprite("sword-move",assetManager.getImage("sword"), 320, 576, 4, 1, 9, true);
+	this.createSprite("sword-idle",assetManager.getImage("sword"), 320, 576, 2, 2, 9, true);
+	this.createSprite("sword-attack-up",assetManager.getImage("sword"), 320, 576, 5, 3, 9, false);
+	this.createSprite("sword-move-up",assetManager.getImage("sword"), 320, 576, 4, 4, 9, true);
+	this.createSprite("sword-idle-up",assetManager.getImage("sword"), 320, 576, 2, 5, 9, true);
+	this.createSprite("sword-attack-down",assetManager.getImage("sword"), 320, 576, 5, 6, 9, false);
+	this.createSprite("sword-move-down",assetManager.getImage("sword"), 320, 576, 4, 7, 9, true);
+	this.createSprite("sword-idle-down",assetManager.getImage("sword"), 320, 576, 2, 8, 9, true);
+   
+	for(var i in this.spriteList) {
+		this.spriteList[i].setCenter(this.centerX, this.centerY);
+	}
+	
 	this.keyList = {};
-	this.spriteList["move-left"].frameCount = 6;
-	this.spriteList["move-right"].frameCount = 6;
-	this.revertDirection = false;
-	this.setSprite("idle");*/
+    this.revertDirection = false;
+	this.lookAt = "down";
+    this.setSprite("idle-down");
 };
 Player.MAX_LEVEL = 50; // Level max
 Player.XP_INCREMENT = 500; // Amount of XP that is added to the amount of XP required for a level, after each level progression
@@ -69,6 +85,16 @@ Player.prototype.setScale = function(scale){
         }
 };
 
+Player.prototype.render = function(g){
+	g.save();
+	g.fillStyle = "white";
+	g.fillRect(10, 10, 100, 20);
+	g.fillStyle = "yellow";
+	g.fillRect(10, 10, 100 * parseInt(this.experience/100), 20);
+	g.restore();
+	Character.prototype.render.call(this, g);
+}
+
 Player.prototype.update = function(deltaTime){
 	var move = {x: 0, y: 0};
 	
@@ -86,40 +112,96 @@ Player.prototype.update = function(deltaTime){
 				case "113", "81":
 					this.revertDirection = true;
 					move.x = -1;
+					this.lookAt = "left";
 				break;
 				case "115", "83":
-					//this.revertDirection = false;
+					this.revertDirection = false;
 					move.y = 1;
+					this.lookAt = "down";
 				break;
 				case "100", "68":
 					this.revertDirection = false;
 					move.x = 1;
+					this.lookAt = "right";
 				break;
 				case "122", "90":
-					//this.revertDirection = true;
+					this.revertDirection = false;
 					move.y = -1;
+					this.lookAt = "up";
 				break;
 			}
 		}
 	}
 	if(move.x != 0 || move.y != 0){
-		this.move(move.x * this.speed.x * this.scale * deltaTime, move.y * this.speed.y * this.scale * deltaTime);
-		this.setSprite("move");
+		this.move(move.x * this.speed.x /* this.scale*/ * deltaTime, move.y * this.speed.y /* this.scale*/ * deltaTime);
+		switch(this.lookAt){
+			case "up":
+				this.setSprite("move-up");
+				//this.setSprite("sword-move-up");
+			break;
+			case "left", "right":
+				this.setSprite("move");
+				//this.setSprite("sword-move");
+			break;
+			case "down":
+				this.setSprite("move-down");
+				//this.setSprite("sword-move-down");
+			break;
+		}
 	}else{
-		this.setSprite("idle");
+		switch(this.lookAt){
+			case "up":
+				this.setSprite("idle-up");
+				//this.setSprite("sword-idle-up");
+			break;
+			case "left", "right":
+				this.setSprite("idle");
+				//this.setSprite("sword-idle");
+			break;
+			case "down":
+				this.setSprite("idle-down");
+				//this.setSprite("sword-idle-down");
+			break;
+		}
 	}
-
 	//this.setSprite (move, idle);
 };
 
 Player.prototype.onKeyDown = function(k){
 	var self = this;
+	var fonction = function(){
+		self.setSprite(lastAnim);
+		for (var i in game.mobList) {
+            if(self.x - 40 <  game.mobList[i].x && game.mobList[i].x < self.x + 40) {
+                if(self.y - 50 < game.mobList[i].y && game.mobList[i].y < self.y + 50) {
+                    camera.shake(3);
+					// inflige 25 pts de degats à l'ennemi
+                    game.mobList[i].sufferDamages(25, self);
+					if(game.mobList[i].isDead){
+						setTimeout(function() {
+							game.mobList.splice(i, 1);
+						}, 2000);
+					}
+                }
+			}
+		}
+	}
 	if(k.which == 32) {
 		var lastAnim = this.lastAnimId;
-		this.setSprite("attack", function(){
-			self.setSprite(lastAnim);
-			camera.shake(3);
-		});
+		switch(this.lookAt){
+			case "up":
+				this.setSprite("attack-up", fonction);
+				//this.setSprite("sword-attack-up");
+			break;
+			case "left", "right":
+				this.setSprite("attack", fonction);
+				//this.setSprite("sword-attack");
+			break;
+			case "down":
+				this.setSprite("attack-down", fonction);
+				//this.setSprite("sword-attack-down");
+			break;
+		}
 	}
 	this.keyList[k.which] = true;
 };
@@ -132,6 +214,13 @@ Player.prototype.LevelUp = function(){
 
     this.Health = this.HealthMax;
 };
+
+Player.prototype.sufferDamages = function(damage){
+	Character.prototype.sufferDamages.call(this, damage);
+	if(this.health < 0) {
+		this.DeadPlayer();
+	}
+}
 
 Player.prototype.DeadPlayer = function()
 {
@@ -173,11 +262,11 @@ Player.prototype.CalculateLevelProgress = function()
     
     while(tmp != 0)
     {
-        XPToCurrentLevel += tmp * Player.XP_INCREMENT * sqrt(tmp);
+        XPToCurrentLevel += tmp * Player.XP_INCREMENT * Math.sqrt(tmp);
         tmp--;
     }
     
-    this.XPRequiredForNextLevel = this.Level * Player.XP_INCREMENT * sqrt(this.Level);
+    this.XPRequiredForNextLevel = this.Level * Player.XP_INCREMENT * Math.sqrt(this.Level);
     
     if(this.Level == Player.MAX_LEVEL && this.XPGatheredForNextLevel > this.XPRequiredForNextLevel)
     {
@@ -186,5 +275,5 @@ Player.prototype.CalculateLevelProgress = function()
     
     this.XPGatheredForNextLevel = this.XP - XPToCurrentLevel;
     
-    this.experience = (float(this.XPGatheredForNextLevel) * 100) / float(this.XPRequiredForNextLevel);
+    this.experience = (parseFloat(this.XPGatheredForNextLevel) * 100) / parseFloat(this.XPRequiredForNextLevel);
 };

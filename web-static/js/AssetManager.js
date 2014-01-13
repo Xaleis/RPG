@@ -76,8 +76,8 @@ AssetManager.prototype.assetLoaded = function(){
 };
 AssetManager.prototype.renderLoadingProgress = function(g){
 	//console.log(this.getLoadingProgress());
-	g.fillStyle = "white";
-	g.fillRect(0, 0, g.canvas.width, g.canvas.height);
+	/*g.fillStyle = "white";
+	g.fillRect(0, 0, g.canvas.width, g.canvas.height);*/
 	
 	g.strokeStyle = "red";
 	g.strokeRect(g.canvas.width/2 - 200, g.canvas.height/2 - 20, 400, 40);
