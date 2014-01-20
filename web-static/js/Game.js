@@ -3,6 +3,7 @@ var Game = function(){
 	var sleep = 3;
 	this.localTime = 0;
 	this.globalTime = 0;
+	this.bSound = true;
 	
 	var win = new Window('main-window', document.getElementById("gui"));
 	
@@ -17,16 +18,18 @@ var Game = function(){
 	
 	$scene = $("#main-scene");
 
-	$("#gui").append($("<div>").button().css({position: "absolute", top:"5px", left:"5px"}).append("Menu").click(function(){
+	var imageRep = "/RPG-static/img/";
+	var img = new Image();
+	img.src = imageRep + "Button.png";
+
+	$("#gui").append($("<div>").css({position: "absolute", top:"5px", left:"95%"}).append(img).click(function(){
 		if($(win.root).hasClass("visible")){
 			$(win.root).removeClass("visible");
 		} else {
 			$(win.root).addClass("visible");
 		}
 	}));
-	//$(win.root).hide();
 
-	var imageRep = "/RPG-static/img/";
 	var imageList = {
 		"background": 	imageRep + "forest.jpg",
 		"clotharmor": 	imageRep + "sprite/clotharmor.png",
@@ -53,7 +56,7 @@ var Game = function(){
 	};
 	this.assetManager = new AssetManager();
 	this.assetManager.startLoading(imageList,soundList);
-	this.ambientSound = this.assetManager.getSound("music");
+	this.ambientSound = this.assetManager.getSound("music3");
 	
 	player = new Player(this.assetManager);
 	camera = new Camera(player);
@@ -74,7 +77,7 @@ var Game = function(){
      
     }, 2000);*/
 	setInterval(function() {
-		if(self.mobList.length < 20) {
+		if(self.mobList.length < 5) {
 			tempo = new Enemy(self.assetManager, parseInt(Math.random() * 5 + 1));
 			self.mobList.push(tempo);
 			self.mobList.sort(function(a, b) {
@@ -91,8 +94,28 @@ var Game = function(){
 
 	player.setPosition(3530, 1770);
 	player.init();
+
+	HUD = new HUD(player);
+	$("#gui").append($("<div>").append(HUD));
+
+	var img_sound = new Image();
+	img_sound.src = imageRep + "sound_on.png";
+	$("#gui").append($("<div>").css({ position: "absolute", top: "10%", left: "95%" }).append(img_sound).click(function () {
+	    if (self.bSound) {
+	        img_sound.src = imageRep + "sound_off.png";
+	        self.bSound = false;
+	        self.ambientSound.pause();
+	    } else {
+	        img_sound.src = imageRep + "sound_on.png";
+	        self.bSound = true;
+	        self.ambientSound.play();
+	    }
+	}));
 	
-	//this.ambientSound.play();
+	if (this.bSound) {
+	    this.ambientSound.play();
+	}
+	this.ambientSound.loop = true;
 	
 	requestAnimFrame(
 		function loop() {
@@ -110,7 +133,8 @@ Game.prototype.setAmbientSound = function(sound){
 		this.ambientSound.play();
 	}
 }
-Game.prototype.mainLoop = function(){
+Game.prototype.mainLoop = function () {
+    var self = this;
 	var now = Date.now();
 	var globalTimeDelta = now - this.globalTime;
 	var localTimeDelta = Math.min(50, globalTimeDelta);
@@ -142,12 +166,20 @@ Game.prototype.mainLoop = function(){
 					player.render(this.graphics);
 				}
                 this.mobList[i].render(this.graphics);
-			}
+            }
+            if ($.CalculateDistance(this.mobList[i].x, this.mobList[i].y, player.x, player.y) < 100) {
+                setTimeout(function () {
+                    self.mobList[i].attack(player);
+                }, 2000);
+            }
         }
 		
 		if(!bRenderPlayer){
 			player.render(this.graphics);
 		}
+
+		HUD.SetPosition(-camera.x, -camera.y);
+		HUD.render(this.graphics);
 
         this.graphics.restore();
     }
@@ -168,18 +200,6 @@ Game.prototype.mainLoop = function(){
         Gold: player.gold,
         progress: (player.experience / 100)
     });
-
-	/*if(!this.assetManager.isDoneLoading()){
-		this.assetManager.renderLoadingProgress(this.graphics);
-	} else {
-		this.graphics.save();
-		camera.render(this.graphics);
-		this.graphics.drawImage(this.assetManager.getImage("background"), 0, 0);
-		
-		this.graphics.restore();
-	}
-
-	player.update(localTimeDelta / 1000);*/
 };
 var TWEEN_FACTOR = 1.5;
 var TWEEN_EXPO_FACTOR = 4;

@@ -20,7 +20,6 @@ Character.prototype.addPositionListener = function(listener){
 Character.prototype.setSprite = function(anim, onComplete){
 	this.lastAnimId = anim;
 	var spriteId = anim;
-	//console.log("new anim " + spriteId);
 	if(this.currentSprite != this.spriteList[spriteId]){
 		if(!this.currentSprite || this.currentSprite.loop || this.currentSprite.currentFrame == this.currentSprite.frameCount - 1){
 			if(this.currentSprite){
@@ -46,7 +45,6 @@ Character.prototype.render = function(g){
 		g.save();
 		g.translate(this.x, this.y);
 		this.currentSprite.render(g, this.revertDirection);
-		//g.translate(-this.x, -this.y);
 		g.restore();
 	}
 }
@@ -60,7 +58,6 @@ Character.prototype.FireEvent = function(){
 Character.prototype.setPosition = function(x, y){
 	this.x = parseInt(x);
 	this.y = parseInt(y);
-	//this.$elm.css({top: this.y + "px", left: this.x + "px"});
 	
 	this.FireEvent();
 };

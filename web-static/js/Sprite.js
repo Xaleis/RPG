@@ -19,44 +19,26 @@ var Sprite = function(id, image, image2, width, height, colCount, rowCount, colH
 	this.x = 0;
 	this.y = 0;
 	
-	/*this.$elm = $("<div>").css({
-		position: "absolute",
-		top: "0px",
-		overflow: "hidden",
-		left: "0px"
-	});
-	this.parent.append(this.$elm);*/
 	this.hide();
 	this.onAnimationComplete = false;
 	
-	/*this.$img = $("<img>").css({
-		position: "absolute",
-		left: "0",
-		top: "0",
-		width: this.imgWidth + 'px',
-		height: this.imgHeight + 'px'
-	});*/
 	this.width = Math.round(this.imgWidth / colHeight);
 	this.height = Math.round(this.imgHeight / rowHeight);
-	//this.$elm.width(this.width).height(this.height).append(this.$img);
 };
 
 Sprite.prototype.setUrl = function(url){
 	if(this.url != url){
 		this.url = url;
-		//this.$img.attr("src", this.url);
 	}
 };
 Sprite.prototype.setPosition = function(x, y){
 	this.x = x;
 	this.y = y;
-	//this.refreshPosition();
 };
 
 Sprite.prototype.setCenter = function(x, y){
 	this.centerX = x;
 	this.centerY = y;
-	//this.refreshPosition();
 };
 Sprite.prototype.refreshPosition = function(){
 	//this.$elm[0].style.left = Math.round(this.x - this.scale * this.centerX) + "px";
@@ -67,11 +49,9 @@ Sprite.prototype.show = function(type, options){
 		this.currentFrame = 0;
 		this.play();
 	}
-	//this.$elm.show(type, options);
 };
 Sprite.prototype.hide = function(hideType){
 	this.stop();
-	//this.$elm.hide(hideType);
 };
 Sprite.prototype.play = function(onComplete){
 	var _this = this;
@@ -94,7 +74,6 @@ Sprite.prototype.play = function(onComplete){
 Sprite.prototype.resetAnim = function(){
 	this.stop();
 	this.currentFrame = 0;
-	//this.refreshDisplay();
 };
 Sprite.prototype.stop = function(){
 	if(this.player){
@@ -114,7 +93,6 @@ Sprite.prototype.nextFrame = function(frames){
 			this.currentFrame = this.frameCount - 1;
 		}
 	}
-	//this.refreshDisplay();
 	if(this.currentFrame == this.frameCount - 1 && !this.loop && this.onAnimationComplete){
 		this.onAnimationComplete(this);
 		this.onAnimationComplete = false;
@@ -131,15 +109,12 @@ Sprite.prototype.render = function(g, revert){
 		col = this.colCount - col - 1;
 		row = this.rowCount/* - row - 1*/;
 	}
-	//this.$img[0].style.left = -Math.round(this.width * this.scale * col) + "px";
-	//this.$img[0].style.top = -Math.round(this.height * this.scale * row) + "px";
 	g.save();
 	if(revert) {
 		g.scale(-1,1);
 	} else {
 		g.scale(1,1);
 	}
-	//console.log("row : " + row + " col : " + col);
 	g.drawImage(this.image, Math.round(this.width * col), Math.round(this.height * row), this.width, this.height, -this.centerX, -this.centerY, this.width, this.height);
 	if(this.image2){
 		g.drawImage(this.image2, Math.round(this.width * col), Math.round(this.height * row), this.width, this.height, -this.centerX, -this.centerY, this.width, this.height);
@@ -153,11 +128,6 @@ Sprite.prototype.setFrameRate = function(frameRate){
 Sprite.prototype.setScale = function(scale){
 	if(this.scale != scale){
 		this.scale = scale;
-		/*this.$elm.width(Math.round(this.width * this.scale));
-		this.$elm.height(Math.round(this.height * this.scale));
-		this.$img.width(Math.round(this.width * this.scale * this.colCount));
-		this.$img.height(Math.round(this.height * this.scale * this.rowCount));
-		this.refreshDisplay();*/
 		this.refreshPosition();
 	}
 };

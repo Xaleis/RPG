@@ -40,31 +40,6 @@ AssetManager.prototype.loadSound = function(url, id, onload){
 		this.assetLoaded();
 	}else{
 		this.soundsToLoad[id] = url;
-		/*var sound = soundManager.createSound({
-			id: id,
-			url: url,
-			autoLoad: true,
-			autoPlay: false,
-			onload: function() {
-				delete _this.soundsToLoad[id];
-				_this.assetLoaded();
-				if(onload){
-					onload(sound);
-				}
-			},
-			volume: 100
-		});
-		
-		sound.playLoop = function(){
-			this.play({			
-				onfinish: function() {
-					if(!this._play || user.data.soundEnabled){
-						this.playLoop();
-					}
-				}
-			});
-		};
-		this.sounds[id] = sound;*/
 		var soundElem = new Audio();
 		soundElem.addEventListener("canplay", function(){
 			delete _this.soundsToLoad[id];
@@ -102,10 +77,6 @@ AssetManager.prototype.assetLoaded = function(){
 	this.loadingEndTime = Date.now();
 };
 AssetManager.prototype.renderLoadingProgress = function(g){
-	//console.log(this.getLoadingProgress());
-	/*g.fillStyle = "white";
-	g.fillRect(0, 0, g.canvas.width, g.canvas.height);*/
-	
 	g.strokeStyle = "red";
 	g.strokeRect(g.canvas.width/2 - 200, g.canvas.height/2 - 20, 400, 40);
 	

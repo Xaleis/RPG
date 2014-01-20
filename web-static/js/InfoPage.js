@@ -1,4 +1,3 @@
-
 var InfoPage = function(){
         Page.call(this, "");
         

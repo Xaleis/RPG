@@ -57,6 +57,10 @@ Enemy.prototype.setPosition = function(x, y){
 	}
 };
 
+Enemy.prototype.attack = function (player) {
+    player.sufferDamages(10);
+}
+
 Enemy.prototype.render = function(g){
 	g.save();
 	g.translate(this.x-this.centerX, this.y-this.centerY - 5);
@@ -77,7 +81,6 @@ Enemy.prototype.Death = function(other) {
 }
  
 Enemy.prototype.sufferDamagesBy = function(damage, player){
-	//this.sufferDamages(damage);
 	this.sufferDamages(damage);
 	if(this.Health <= 0) {
 		this.Death(player);

@@ -1,4 +1,4 @@
-var Player = function(assetManager){
+var Player = function(assetManager, xOrigin, yOrigin){
 	var self = this;
 	Character.call(this);
 	
@@ -10,13 +10,16 @@ var Player = function(assetManager){
 	});
 		
 	this.speed = {
-		x: 600,
-		y: 200
+		x: 400,
+		y: 300
 	};
+	this.xOrigin = parseInt(xOrigin);
+	this.yOrigin = parseInt(yOrigin);
 	
 	this.playerSprite = "clotharmor";
-    this.weaponSprite = "sword";
-	
+	this.weaponSprite = "sword";
+
+	this.name = "Player";
 	this.Level = 1; // Current level
 	this.XP = 0; // Total amount of gathered XP
 	this.XPGatheredForNextLevel = 0; // Amount of XP gathered for the next level
@@ -177,7 +180,6 @@ Player.prototype.update = function(deltaTime){
 			break;
 		}
 	}
-	//this.setSprite (move, idle);
 };
 
 Player.prototype.onKeyDown = function(k){
@@ -253,6 +255,7 @@ Player.prototype.DeadPlayer = function()
         
         this.CalculateLevelProgress();
     }
+    this.setPosition(this.xOrigin, this.yOrigin);
 };
 
 Player.prototype.GiveXP = function(amount)
