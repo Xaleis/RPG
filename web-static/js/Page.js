@@ -12,9 +12,4 @@ Page.prototype.append = function(content){
 };
 Page.prototype.setVisible = function(visible){
         this.root.style.display = visible?"block":"none";
-        /*if(visible){
-                $(this.root).show("slide");
-        }else{
-                $(this.root).hide("slide");
-        }*/
 };

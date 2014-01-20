@@ -4,8 +4,6 @@ var Game = function(){
 	this.localTime = 0;
 	this.globalTime = 0;
 	
-
-	//var win = new Window('main-window', document.getElementById("gui"));
 	var win = new Window('main-window', document.getElementById("gui"));
 	
 	infoPage = new InfoPage();
@@ -17,14 +15,6 @@ var Game = function(){
 		console.log("New Exception : " + e);
 	}
 	
-	/*infoPage.refreshData({
-		name: "Player",
-		title: "be good",
-		xp: 200,
-		hp: 643,
-		power: 25,
-		progress: 0.8
-	});*/
 	$scene = $("#main-scene");
 
 	$("#gui").append($("<div>").button().css({position: "absolute", top:"5px", left:"5px"}).append("Menu").click(function(){
@@ -34,31 +24,47 @@ var Game = function(){
 			$(win.root).addClass("visible");
 		}
 	}));
-	/*$(win.root).hide();*/
+	//$(win.root).hide();
 
+	var imageRep = "/RPG-static/img/";
 	var imageList = {
-		//"background": "/RPG-static/img/getImage.php?url=forest.jpg&sleep=" + sleep,
-		//"player": "/RPG-static/img/getImage.php?url=sprite/clotharmor.png&sleep=" + sleep,
-		"background": "/RPG-static/img/forest.jpg",
-		"player": "/RPG-static/img/sprite/clotharmor.png",
-		//"mob": "/RPG-static/img/getImage.php?url=sprite/goblin.png&sleep=" + sleep,
-		"mob": "/RPG-static/img/sprite/goblin.png",
-		//"sword": "/RPG-static/img/getImage.php?url=sprite/sword1.png&sleep=" + sleep
-		"sword": "/RPG-static/img/sprite/sword1.png"
+		"background": 	imageRep + "forest.jpg",
+		"clotharmor": 	imageRep + "sprite/clotharmor.png",
+		"axe": 			imageRep + "sprite/axe.png",
+		"bluesword": 	imageRep + "sprite/bluesword.png",
+		"redsword": 	imageRep + "sprite/redsword.png",
+		"sword": 		imageRep + "sprite/sword1.png",
+		"goblin": 		imageRep + "sprite/goblin.png",
+		"boss": 		imageRep + "sprite/boss.png"
 	};
-	var soundList= {};
+	var soundRep = "/RPG-static/sound/";
+	var soundList= {
+		"music": 	soundRep + "01 Swordland.mp3",
+		"music2":	soundRep + "03 Everyday Life.mp3",
+		"music3": 	soundRep + "13 March Down.mp3",
+		"music4": 	soundRep + "15 We Have To Defeat It.mp3",
+		"music5": 	soundRep + "16 At Our Parting.mp3",
+		"music6": 	soundRep + "19 Luminous Sword.mp3",
+		"death": 	soundRep + "Death.mp3",
+		"heal": 	soundRep + "Heal.mp3",
+		"hit": 		soundRep + "Hit.mp3",
+		"hurt": 	soundRep + "Hurt.mp3",
+		"kill": 	soundRep + "Kill.mp3"
+	};
 	this.assetManager = new AssetManager();
 	this.assetManager.startLoading(imageList,soundList);
+	this.ambientSound = this.assetManager.getSound("music");
 	
 	player = new Player(this.assetManager);
 	camera = new Camera(player);
 	
 	infoPage.refreshData({
 		name: "Player",
-		title: "be good",
-		xp: player.experience,
+		title: "Level " + player.Level,
+		xp: player.XP,
 		hp: player.Health,
 		power: 25,
+		Gold: player.gold,
 		progress: (player.experience/100)
 	});
 	
@@ -69,10 +75,7 @@ var Game = function(){
     }, 2000);*/
 	setInterval(function() {
 		if(self.mobList.length < 20) {
-			tempo = new Enemy(self.assetManager);
-			if(Math.random()<0.5) {
-				tempo.revertDirection = true;
-			}
+			tempo = new Enemy(self.assetManager, parseInt(Math.random() * 5 + 1));
 			self.mobList.push(tempo);
 			self.mobList.sort(function(a, b) {
 				if(a.y < b.y) {
@@ -89,6 +92,8 @@ var Game = function(){
 	player.setPosition(3530, 1770);
 	player.init();
 	
+	//this.ambientSound.play();
+	
 	requestAnimFrame(
 		function loop() {
 			self.mainLoop();
@@ -98,6 +103,13 @@ var Game = function(){
 	this.canvas = $(".scene-view").get(0);
 	this.graphics = this.canvas.getContext("2d");
 };
+Game.prototype.setAmbientSound = function(sound){
+	this.ambientSound.pause();
+	if(sound){
+		this.ambientSound = this.assetManager.getSound(sound);
+		this.ambientSound.play();
+	}
+}
 Game.prototype.mainLoop = function(){
 	var now = Date.now();
 	var globalTimeDelta = now - this.globalTime;
@@ -120,15 +132,22 @@ Game.prototype.mainLoop = function(){
        
         player.update(localTimeDelta / 1000);
 
+		var bRenderPlayer = false;
+		
 		for(var i in this.mobList) {
-            if(this.mobList[i].y <= player.y) {
+            if(this.mobList[i].y < player.y) {
                 this.mobList[i].render(this.graphics);
-                player.render(this.graphics);
             } else {
-                //player.render(this.graphics);
+                if(!bRenderPlayer){
+					player.render(this.graphics);
+				}
                 this.mobList[i].render(this.graphics);
 			}
         }
+		
+		if(!bRenderPlayer){
+			player.render(this.graphics);
+		}
 
         this.graphics.restore();
     }
@@ -140,6 +159,16 @@ Game.prototype.mainLoop = function(){
             this.graphics.globalAlpha = 1;
     }
 	
+    infoPage.refreshData({
+        name: "Player",
+        title: "Level " + player.Level,
+        xp: player.XP,
+        hp: player.Health,
+        power: 25,
+        Gold: player.gold,
+        progress: (player.experience / 100)
+    });
+
 	/*if(!this.assetManager.isDoneLoading()){
 		this.assetManager.renderLoadingProgress(this.graphics);
 	} else {

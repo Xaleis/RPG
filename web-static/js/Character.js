@@ -9,7 +9,7 @@ var Character = function(){
 	
 	this.HealthMax = 100;
 	this.Health = this.HealthMax;
-	
+
 	this.gold = 0;
 };
 
@@ -38,7 +38,7 @@ Character.prototype.setSprite = function(anim, onComplete){
 };
 
 Character.prototype.sufferDamages = function(damage){
-	this.Health = this.Health - damage;
+	this.Health = this.Health - parseInt(damage);
 }
 
 Character.prototype.render = function(g){
@@ -49,16 +49,6 @@ Character.prototype.render = function(g){
 		//g.translate(-this.x, -this.y);
 		g.restore();
 	}
-	g.save();
-	g.translate(10, 10);
-	g.fillStyle = "red";
-	g.fillRect(10, 10, 100, 20);
-	g.fillStyle = "green";
-	g.fillRect(10, 10, 100 * parseInt(this.Health/this.HealthMax), 20);
-	//g.drawImage("", 0, 0);
-	g.font = "20px Arial";
-	g.fillText("Player",0,0);
-	g.restore();
 }
 
 Character.prototype.FireEvent = function(){
@@ -96,6 +86,6 @@ Character.prototype.moveTo = function(x, y){
 Character.prototype.move = function(x, y){
 	this.moveTo(this.x + x, this.y + y);
 };
-Character.prototype.createSprite = function(id, url, width, height, colCount, rowCount, rowHeight, loop) {
-	this.spriteList[id] = new Sprite(id, url, width, height, colCount, rowCount, rowHeight, loop);
+Character.prototype.createSprite = function(id, url, url2, width, height, colCount, rowCount, colHeight, rowHeight, loop) {
+	this.spriteList[id] = new Sprite(id, url, url2, width, height, colCount, rowCount, colHeight, rowHeight, loop);
 };

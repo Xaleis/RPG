@@ -6,7 +6,7 @@
 	left: 50%;
 	margin-left: -128px;
 	margin-top: -128px;
-	background-image: url(../img/selection-1-2-1.png);
+	/*background-image: url(../img/selection-1-2-1.png);*/
 }
 .player-name{
 	color: #caffff;
@@ -57,6 +57,10 @@
 	text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black;
 }
 .power{
+	color: yellow;
+	text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black;
+}
+.Gold{
 	color: yellow;
 	text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black;
 }

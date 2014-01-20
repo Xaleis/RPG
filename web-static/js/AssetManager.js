@@ -40,7 +40,7 @@ AssetManager.prototype.loadSound = function(url, id, onload){
 		this.assetLoaded();
 	}else{
 		this.soundsToLoad[id] = url;
-		var sound = soundManager.createSound({
+		/*var sound = soundManager.createSound({
 			id: id,
 			url: url,
 			autoLoad: true,
@@ -64,7 +64,34 @@ AssetManager.prototype.loadSound = function(url, id, onload){
 				}
 			});
 		};
-		this.sounds[id] = sound;
+		this.sounds[id] = sound;*/
+		var soundElem = new Audio();
+		soundElem.addEventListener("canplay", function(){
+			delete _this.soundsToLoad[id];
+			_this.assetLoaded();
+		});
+		soundElem.addEventListener("stalled", function(){
+			delete _this.soundsToLoad[id];
+			console.log("error " + url);
+			_this.assetLoaded();
+		});
+		var sourceElem = document.createElement("source");
+		sourceElem.src = url;
+		switch(url.substring(url.length - 3)){
+			case 'mp3':
+				sourceElem.type = "audio/mp3";
+				break;
+			case 'wav':
+				sourceElem.type = "audio/wav";
+				break;
+			case 'ogg':
+				sourceElem.type = "audio/ogg";
+				break;
+		}
+		soundElem.appendChild(sourceElem);
+		document.body.appendChild(soundElem);
+		
+		this.sounds[id] = soundElem;
 	}
 	return this.sounds[id];
 };

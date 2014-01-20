@@ -35,7 +35,9 @@ $.getElmRegion = function(elm){
 		height: h
 	};
 };
-
+$.CalculateDistance = function(xa, ya, xb, yb) {
+	return (xb - xa) * (xb - xa) + (yb - ya) * (yb - ya);
+}
 $.ease = function(from, to, func, options){
 	var isObject = true;
 	if(typeof from != "object"){

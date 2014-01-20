@@ -1,12 +1,13 @@
-var Sprite = function(id, image, width, height, colCount, rowCount, rowHeight, loop){
+var Sprite = function(id, image, image2, width, height, colCount, rowCount, colHeight, rowHeight, loop){
 	this.id = id;
 	this.loop = loop;
 	this.image = image;
+	this.image2 = image2;
 	this.rowCount = rowCount;
 	this.colCount = colCount;
 	this.frameCount = this.rowCount /* this.colCount*/;
 	this.currentFrame = 0;
-	this.setFrameRate(8);
+	this.setFrameRate(4);
 	this.invert = false;
 	this.invertAnim = false;
 	this.scale = 1;
@@ -35,8 +36,8 @@ var Sprite = function(id, image, width, height, colCount, rowCount, rowHeight, l
 		width: this.imgWidth + 'px',
 		height: this.imgHeight + 'px'
 	});*/
-	this.width = Math.round(this.imgWidth / this.colCount);
-	this.height = Math.round(this.imgHeight / this.rowHeight);
+	this.width = Math.round(this.imgWidth / colHeight);
+	this.height = Math.round(this.imgHeight / rowHeight);
 	//this.$elm.width(this.width).height(this.height).append(this.$img);
 };
 
@@ -49,13 +50,13 @@ Sprite.prototype.setUrl = function(url){
 Sprite.prototype.setPosition = function(x, y){
 	this.x = x;
 	this.y = y;
-	this.refreshPosition();
+	//this.refreshPosition();
 };
 
 Sprite.prototype.setCenter = function(x, y){
 	this.centerX = x;
 	this.centerY = y;
-	this.refreshPosition();
+	//this.refreshPosition();
 };
 Sprite.prototype.refreshPosition = function(){
 	//this.$elm[0].style.left = Math.round(this.x - this.scale * this.centerX) + "px";
@@ -140,6 +141,9 @@ Sprite.prototype.render = function(g, revert){
 	}
 	//console.log("row : " + row + " col : " + col);
 	g.drawImage(this.image, Math.round(this.width * col), Math.round(this.height * row), this.width, this.height, -this.centerX, -this.centerY, this.width, this.height);
+	if(this.image2){
+		g.drawImage(this.image2, Math.round(this.width * col), Math.round(this.height * row), this.width, this.height, -this.centerX, -this.centerY, this.width, this.height);
+	}
 	g.restore();
 };
 Sprite.prototype.setFrameRate = function(frameRate){
