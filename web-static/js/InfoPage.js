@@ -23,6 +23,7 @@ var InfoPage = function(){
         this.addAttribute("xp", "XP");
         this.addAttribute("hp", "HP");
         this.addAttribute("power", "Puissance");
+        this.addAttribute("Gold", "Gold");
 };
 InfoPage.prototype = new Page();
 

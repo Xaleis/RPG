@@ -9,7 +9,10 @@ var Character = function(){
 	
 	this.HealthMax = 100;
 	this.Health = this.HealthMax;
+<<<<<<< HEAD
 	
+=======
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 	this.gold = 0;
 };
 
@@ -37,10 +40,13 @@ Character.prototype.setSprite = function(anim, onComplete){
 	}
 };
 
+<<<<<<< HEAD
 Character.prototype.sufferDamages = function(damage){
 	this.Health = this.Health - damage;
 }
 
+=======
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 Character.prototype.render = function(g){
 	if(this.currentSprite) {
 		g.save();
@@ -52,10 +58,15 @@ Character.prototype.render = function(g){
 	g.save();
 	g.translate(10, 10);
 	g.fillStyle = "red";
+<<<<<<< HEAD
 	g.fillRect(10, 10, 100, 20);
 	g.fillStyle = "green";
 	g.fillRect(10, 10, 100 * parseInt(this.Health/this.HealthMax), 20);
 	//g.drawImage("", 0, 0);
+=======
+	g.fillRect(0, 0, 100, 20);
+	g.drawImage("", 0, 0);
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 	g.font = "20px Arial";
 	g.fillText("Player",0,0);
 	g.restore();
@@ -96,6 +107,12 @@ Character.prototype.moveTo = function(x, y){
 Character.prototype.move = function(x, y){
 	this.moveTo(this.x + x, this.y + y);
 };
+<<<<<<< HEAD
 Character.prototype.createSprite = function(id, url, width, height, colCount, rowCount, rowHeight, loop) {
 	this.spriteList[id] = new Sprite(id, url, width, height, colCount, rowCount, rowHeight, loop);
+=======
+
+Character.prototype.createSprite = function(id, url, width, height, colCount, rowCount, loop) {
+	this.spriteList[id] = new Sprite(id, url, width, height, colCount, rowCount, loop);
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 };

@@ -17,14 +17,6 @@ var Game = function(){
 		console.log("New Exception : " + e);
 	}
 	
-	/*infoPage.refreshData({
-		name: "Player",
-		title: "be good",
-		xp: 200,
-		hp: 643,
-		power: 25,
-		progress: 0.8
-	});*/
 	$scene = $("#main-scene");
 
 	$("#gui").append($("<div>").button().css({position: "absolute", top:"5px", left:"5px"}).append("Menu").click(function(){
@@ -34,7 +26,7 @@ var Game = function(){
 			$(win.root).addClass("visible");
 		}
 	}));
-	/*$(win.root).hide();*/
+	//$(win.root).hide();
 
 	var imageList = {
 		//"background": "/RPG-static/img/getImage.php?url=forest.jpg&sleep=" + sleep,
@@ -55,10 +47,11 @@ var Game = function(){
 	
 	infoPage.refreshData({
 		name: "Player",
-		title: "be good",
-		xp: player.experience,
+		title: "Level " + player.Level,
+		xp: player.XP,
 		hp: player.Health,
 		power: 25,
+		Gold: player.gold,
 		progress: (player.experience/100)
 	});
 	
@@ -70,9 +63,6 @@ var Game = function(){
 	setInterval(function() {
 		if(self.mobList.length < 20) {
 			tempo = new Enemy(self.assetManager);
-			if(Math.random()<0.5) {
-				tempo.revertDirection = true;
-			}
 			self.mobList.push(tempo);
 			self.mobList.sort(function(a, b) {
 				if(a.y < b.y) {
@@ -120,15 +110,22 @@ Game.prototype.mainLoop = function(){
        
         player.update(localTimeDelta / 1000);
 
+		var bRenderPlayer = false;
+		
 		for(var i in this.mobList) {
-            if(this.mobList[i].y <= player.y) {
+            if(this.mobList[i].y > player.y) {
                 this.mobList[i].render(this.graphics);
-                player.render(this.graphics);
             } else {
-                //player.render(this.graphics);
+                if(!bRenderPlayer){
+					player.render(this.graphics);
+				}
                 this.mobList[i].render(this.graphics);
 			}
         }
+		
+		if(!bRenderPlayer){
+			player.render(this.graphics);
+		}
 
         this.graphics.restore();
     }
@@ -140,6 +137,16 @@ Game.prototype.mainLoop = function(){
             this.graphics.globalAlpha = 1;
     }
 	
+    infoPage.refreshData({
+        name: "Player",
+        title: "Level " + player.Level,
+        xp: player.XP,
+        hp: player.Health,
+        power: 25,
+        Gold: player.gold,
+        progress: (player.experience / 100)
+    });
+
 	/*if(!this.assetManager.isDoneLoading()){
 		this.assetManager.renderLoadingProgress(this.graphics);
 	} else {

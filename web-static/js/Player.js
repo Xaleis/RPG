@@ -14,14 +14,20 @@ var Player = function(assetManager){
 		y: 200
 	};
 	
+<<<<<<< HEAD
 	//this.spriteName = "/RPG-static/img/sprite/clotharmor.png";
     //this.weaponName = "/RPG-static/img/sprite/sword1.png";
+=======
+	this.spriteName = "clotharmor";
+    this.weaponName = "sword1";
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 	
 	this.Level = 1; // Current level
 	this.XP = 0; // Total amount of gathered XP
 	this.XPGatheredForNextLevel = 0; // Amount of XP gathered for the next level
 	this.XPRequiredForNextLevel = 0; // Amount of XP required for the next level
 	this.experience = 0;
+<<<<<<< HEAD
 
 	this.centerX = 32;
 	this.centerY = 32;
@@ -56,6 +62,19 @@ var Player = function(assetManager){
     this.revertDirection = false;
 	this.lookAt = "down";
     this.setSprite("idle-down");
+=======
+	
+	this.centerX = 32;
+	this.centerY = 32;
+	
+	this.createSprite("idle",assetManager.getImage("player-idle"), 2048, 256, 16, 2, true);
+	this.createSprite("attack",assetManager.getImage("player-attack"), 2048, 128, 16, 1, false);
+	this.createSprite("move",assetManager.getImage("player-move"), 896, 128, 7, 1, true);
+	
+	for(var i in this.spriteList) {
+		this.spriteList[i].setCenter(this.centerX, this.centerY);
+	}
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 };
 Player.MAX_LEVEL = 50; // Level max
 Player.XP_INCREMENT = 500; // Amount of XP that is added to the amount of XP required for a level, after each level progression
@@ -112,22 +131,38 @@ Player.prototype.update = function(deltaTime){
 				case "113", "81":
 					this.revertDirection = true;
 					move.x = -1;
+<<<<<<< HEAD
 					this.lookAt = "left";
+=======
+					//this.direction = "west";
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 				break;
 				case "115", "83":
 					this.revertDirection = false;
 					move.y = 1;
+<<<<<<< HEAD
 					this.lookAt = "down";
+=======
+					//this.direction = "south";
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 				break;
 				case "100", "68":
 					this.revertDirection = false;
 					move.x = 1;
+<<<<<<< HEAD
 					this.lookAt = "right";
+=======
+					//this.direction = "est";
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 				break;
 				case "122", "90":
 					this.revertDirection = false;
 					move.y = -1;
+<<<<<<< HEAD
 					this.lookAt = "up";
+=======
+					//this.direction = "north";
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 				break;
 			}
 		}

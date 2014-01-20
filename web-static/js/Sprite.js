@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 var Sprite = function(id, image, width, height, colCount, rowCount, rowHeight, loop){
+=======
+var Sprite = function(id, image, width, height, colCount, rowCount, loop){
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 	this.id = id;
 	this.loop = loop;
 	this.image = image;
@@ -36,7 +40,11 @@ var Sprite = function(id, image, width, height, colCount, rowCount, rowHeight, l
 		height: this.imgHeight + 'px'
 	});*/
 	this.width = Math.round(this.imgWidth / this.colCount);
+<<<<<<< HEAD
 	this.height = Math.round(this.imgHeight / this.rowHeight);
+=======
+	this.height = Math.round(this.imgHeight / this.rowCount);
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 	//this.$elm.width(this.width).height(this.height).append(this.$img);
 };
 
@@ -49,13 +57,13 @@ Sprite.prototype.setUrl = function(url){
 Sprite.prototype.setPosition = function(x, y){
 	this.x = x;
 	this.y = y;
-	this.refreshPosition();
+	//this.refreshPosition();
 };
 
 Sprite.prototype.setCenter = function(x, y){
 	this.centerX = x;
 	this.centerY = y;
-	this.refreshPosition();
+	//this.refreshPosition();
 };
 Sprite.prototype.refreshPosition = function(){
 	//this.$elm[0].style.left = Math.round(this.x - this.scale * this.centerX) + "px";
@@ -138,7 +146,16 @@ Sprite.prototype.render = function(g, revert){
 	} else {
 		g.scale(1,1);
 	}
+<<<<<<< HEAD
 	//console.log("row : " + row + " col : " + col);
+=======
+	g.save();
+	if(revert) {
+		g.scale(-1,1);
+	} else {
+		g.scale(1,1);
+	}
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 	g.drawImage(this.image, Math.round(this.width * col), Math.round(this.height * row), this.width, this.height, -this.centerX, -this.centerY, this.width, this.height);
 	g.restore();
 };
