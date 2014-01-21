@@ -1,10 +1,10 @@
 .window{
 	position: absolute;
-	height: 350px;
-	background: rgba(100, 100, 255, 0.8);
-	top: 20px;
-	right: 40px;
-	border: white solid 2px;
+	height: 360px;
+	background-image: url(../img/images/parchemin.png);
+	background-repeat: no-repeat;
+	top: 15%;
+	right: 25%;
 	-webkit-transform:scale(0.1,0.1);
 	visibility:hidden;
 	-webkit-transition:all 1s ease-out;
@@ -17,7 +17,6 @@
 	height: 100%;
 	width: 160px;
 	float: left;
-	border-right: #caffff solid 2px;
 	font-size: 14px;
 }
 .menu ul{
@@ -26,38 +25,31 @@
 	padding: 0;
 }
 .menu li{
-	background-image: url(../img/images/goal.png);
-	background-repeat: no-repeat;
-	background-color: rgba(74, 74, 139, 0.75);
-	background-position: left center;
+	background: rgba(0, 0, 0, 0.3);
 	padding: 5px;
 	padding-left: 27px;
 	padding-top: 7px;
-	border: 2px outset;
 	cursor: pointer;
-	color: #caffff;
+	/*color: #caffff;*/
+	color: rgba(0, 0, 0, 0.90);
 	line-height: 28px;
 }
 .menu li:hover{
-	background-color: rgba(187, 187, 209, 0.76);
+	background-color: rgba(255, 255, 255, 0.75);
 }
 .menu li:active{
-	background-image: url(../img/images/goal-done.png);
-	border-style: inset;
 	background-color: rgba(0, 0, 0, 0.3);
 }
 .menu li.selected{
-	background-image: url(../img/images/goal-done.png);
 	background-color: rgba(0, 0, 0, 0.5);
 	cursor: default;
-	border-style: inset;
 }
 .window .content{
 	float: left;
 	height: 100%;
-	width: 400px;
+	width: 340px;
 	position: relative;
-	background: rgba(0, 0, 0, 0.5);
+	/*background: rgba(0, 0, 0, 0.5);*/
 }
 .window .content > div{
 	position: absolute;
@@ -78,7 +70,7 @@ dt{
 	float: left;
 	clear: both;
 	width: 90px;
-	color: #caffff;
+	color: rgba(0, 0, 0, 0.90);
 }
 dt:after{
 	content: " :";

@@ -1,8 +1,8 @@
 var InfoPage = function(){
         Page.call(this, "");
         
-        this.$playerPreview = $("<div/>").addClass("player-preview");
-        this.append(this.$playerPreview);
+        //this.$playerPreview = $("<div/>").addClass("player-preview");
+        //this.append(this.$playerPreview);
 
         this.$playerName = $("<div>").addClass("player-name").append("nom");
         this.append(this.$playerName);

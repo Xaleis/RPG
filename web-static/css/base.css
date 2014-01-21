@@ -25,10 +25,10 @@ html, body{
  	height: 600px;
  	overflow: hidden;
 /* 	background: white; */
-/* 	top: 50%; */
-/* 	left: 50%; */
-/* 	margin-left: -512px; */
-/* 	margin-top: -300px; */
+ 	top: 50%;
+ 	left: 50%;
+ 	margin-left: -512px;
+ 	margin-top: -300px;
 	font-family: gunship-condensed;
 	font-size: 9px;
 }

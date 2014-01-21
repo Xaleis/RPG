@@ -40,6 +40,12 @@ HUD.prototype.render = function (g) {
 
 
     /* Affichage nom joueur */
+    g.fillStyle = "black";
+    g.font = "bold 16px Arial";
+    g.fillText(player.name, 54, 95);
+    g.fillText(player.name, 56, 95);
+    g.fillText(player.name, 55, 94);
+    g.fillText(player.name, 55, 96);
     g.fillStyle = "white";
     g.font = "bold 16px Arial";
     g.fillText(player.name, 55, 95);

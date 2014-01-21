@@ -31,10 +31,6 @@ var Player = function(assetManager, xOrigin, yOrigin){
 
 	/* Player */
 	this.initSpriteList(assetManager, this.playerSprite, this.weaponSprite);
-   
-	for(var i in this.spriteList) {
-		this.spriteList[i].setCenter(this.centerX, this.centerY);
-	}
 	
 	this.keyList = {};
     this.revertDirection = false;
@@ -53,7 +49,6 @@ Player.MAX_SCALE = 1.3;
 Player.prototype = new Character();
 Player.prototype.init = function(){
 };
-
 Player.prototype.initSpriteList = function(assetManager, playerSprite, weaponSprite){
 	if(playerSprite){ 
 		this.playerSprite = playerSprite;
@@ -69,7 +64,11 @@ Player.prototype.initSpriteList = function(assetManager, playerSprite, weaponSpr
 	this.createSprite("idle-up",assetManager.getImage(this.playerSprite), assetManager.getImage(this.weaponSprite), 320, 576, 2, 5, 5, 9, true);
 	this.createSprite("attack-down",assetManager.getImage(this.playerSprite), assetManager.getImage(this.weaponSprite), 320, 576, 5, 6, 5, 9, false);
 	this.createSprite("move-down",assetManager.getImage(this.playerSprite), assetManager.getImage(this.weaponSprite), 320, 576, 4, 7, 5, 9, true);
-	this.createSprite("idle-down",assetManager.getImage(this.playerSprite), assetManager.getImage(this.weaponSprite), 320, 576, 2, 8, 5, 9, true);
+	this.createSprite("idle-down", assetManager.getImage(this.playerSprite), assetManager.getImage(this.weaponSprite), 320, 576, 2, 8, 5, 9, true);
+
+	for (var i in this.spriteList) {
+	    this.spriteList[i].setCenter(this.centerX, this.centerY);
+	}
 }
 
 Player.prototype.setPosition = function(x, y){
@@ -90,11 +89,11 @@ Player.prototype.setScale = function(scale){
 };
 
 Player.prototype.render = function(g){
-	g.save();
+	/*g.save();
 	g.translate(this.x-this.centerX, this.y-this.centerY-5);
 	g.fillStyle = "black";
 	g.font = "bold 12px Arial";
-	g.fillText("Player lvl " + this.Level,0,0);
+	g.fillText(this.name + " lvl " + this.Level,0,0);
 	g.fillStyle = "white";
 	g.fillRect(0, 10, 64, 5);
 	g.fillStyle = "yellow";
@@ -103,7 +102,7 @@ Player.prototype.render = function(g){
 	g.fillRect(0, 5, 64, 5);
 	g.fillStyle = "green";
 	g.fillRect(0, 5, 64 * parseFloat(this.Health/this.HealthMax), 5);
-	g.restore();
+	g.restore();*/
 	Character.prototype.render.call(this, g);
 }
 
@@ -192,9 +191,17 @@ Player.prototype.onKeyDown = function(k){
                     camera.shake(3);
 					// inflige 25 pts de degats à l'ennemi
                     game.mobList[i].sufferDamagesBy(25, self);
+                    if (game.bSound) {
+                        var sound = game.assetManager.getSound("hurt");
+                        sound.play();
+                    }
+                    game.infoGUI.push(new InfoGUI(25, game.mobList[i], "damage"));
 					if(game.mobList[i].isDead){
-						//setTimeout(function() {
-							game.mobList.splice(i, 1);
+					    if (game.bSound) {
+					        var sound = game.assetManager.getSound("kill");
+					        sound.play();
+					    }
+						game.mobList.splice(i, 1);
 						//}, 10);
 					}
                 }
@@ -231,18 +238,22 @@ Player.prototype.onKeyUp = function(k){
 Player.prototype.LevelUp = function(){
     this.Level++;
 
+    game.infoGUI.push(new InfoGUI("Level up !", this, "levelup"));
+
     this.Health = this.HealthMax;
 };
 
-Player.prototype.sufferDamages = function(damage){
-	Character.prototype.sufferDamages.call(this, damage);
-	if(this.Health <= 0) {
+Player.prototype.sufferDamagesBy = function(damage, enemy){
+	this.sufferDamages(damage);
+	if (this.Health <= 0) {
+	    this.Health = 0;
 		this.DeadPlayer();
 	}
 }
 
 Player.prototype.DeadPlayer = function()
 {
+    this.Health = this.HealthMax;
     this.XP = this.XP - (this.Level * 100);
     if(this.Level == 1 && this.XP < 0)
     {
@@ -255,7 +266,14 @@ Player.prototype.DeadPlayer = function()
         
         this.CalculateLevelProgress();
     }
+
+    if (game.bSound) {
+        var sound = game.assetManager.getSound("death");
+        sound.play();
+    }
+
     this.setPosition(this.xOrigin, this.yOrigin);
+    this.render(game.graphics);
 };
 
 Player.prototype.GiveXP = function(amount)

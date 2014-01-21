@@ -9,7 +9,6 @@ window.requestAnimFrame = (function() {
          };
 })();
 
-
 $.getTimeMillis = function(){
 	return new Date().getTime();
 };

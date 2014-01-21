@@ -9,17 +9,18 @@
 	/*background-image: url(../img/selection-1-2-1.png);*/
 }
 .player-name{
-	color: #caffff;
-	font-family: gunship;
+	/*color: #caffff;*/
+	color: #a7a7a7;
+	font-family: gunship-condensed;
 	font-size: 26px;
 	text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black,
-		3px 3px 7px #caffff, -3px -3px 7px #caffff, -3px 3px 7px #caffff, 3px -3px 7px #caffff;
+		3px 3px 7px #ffffff, -3px -3px 7px #ffffff, -3px 3px 7px #ffffff, 3px -3px 7px #ffffff;
 	text-align: center;
 	margin: 5px;
 }
 .player-title{
 	color: yellow;
-	font-family: gunship-italic;
+	font-family: gunship;
 	font-size: 16px;
 	text-shadow: 2px 2px 0 black, -2px -2px 0 black, -2px 2px 0 black, 2px -2px 0 black;
 	text-align: center;
@@ -40,12 +41,12 @@
 	background-position: left center;
 }
 .xp{
-	background-image: url(../img/images/icon-xp-small.png);
+	/*background-image: url(../img/images/icon-xp-small.png);
 	background-repeat: no-repeat;
-	background-position: right center;
+	background-position: right center;*/
 	padding-right: 16px;
 	line-height: 17px; 
-	color: skyblue;
+	color: #59f50c;
 	text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black;
 }
 .hp{
@@ -57,7 +58,7 @@
 	text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black;
 }
 .power{
-	color: yellow;
+	color: grey;
 	text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black;
 }
 .Gold{
@@ -65,7 +66,7 @@
 	text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black;
 }
 dl{
-	position: absolute;
-	bottom: 0px;
+	position: relative;
+	top: 10px;
 	left: 10px;
 }

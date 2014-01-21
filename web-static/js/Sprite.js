@@ -35,7 +35,6 @@ Sprite.prototype.setPosition = function(x, y){
 	this.x = x;
 	this.y = y;
 };
-
 Sprite.prototype.setCenter = function(x, y){
 	this.centerX = x;
 	this.centerY = y;

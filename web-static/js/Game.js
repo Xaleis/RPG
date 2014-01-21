@@ -7,22 +7,13 @@ var Game = function(){
 	
 	var win = new Window('main-window', document.getElementById("gui"));
 	
-	infoPage = new InfoPage();
-	try{
-		win.addPage("info", infoPage);
-		win.addPage("description", new Page("<strong>Created by</strong> Xaleis"));
-		win.addPage("equipement", new Page("sword"));
-	}catch(e){
-		console.log("New Exception : " + e);
-	}
-	
 	$scene = $("#main-scene");
 
 	var imageRep = "/RPG-static/img/";
 	var img = new Image();
 	img.src = imageRep + "Button.png";
 
-	$("#gui").append($("<div>").css({position: "absolute", top:"5px", left:"95%"}).append(img).click(function(){
+	$("#gui").append($("<div>").css({position: "absolute", top:"10%", left:"95%"}).append(img).click(function(){
 		if($(win.root).hasClass("visible")){
 			$(win.root).removeClass("visible");
 		} else {
@@ -58,9 +49,22 @@ var Game = function(){
 	this.assetManager.startLoading(imageList,soundList);
 	this.ambientSound = this.assetManager.getSound("music3");
 	
-	player = new Player(this.assetManager);
+	player = new Player(this.assetManager, 3530, 1770);
 	camera = new Camera(player);
 	
+	infoPage = new InfoPage();
+	infoPage2 = new Page("<br/>Created by : Xaleis<br/>Inspiration : Browser Quest");
+	infoPage3 = new Page("<br/>Armor: " + player.playerSprite + "<br/>Weapon: " + player.weaponSprite);
+    try {
+        win.addPage("info", infoPage);
+        win.addPage("description", infoPage2);
+        win.addPage("equipement", infoPage3);
+        /*win.addPage("description", new Page("<strong>Created by</strong> Xaleis"));
+		win.addPage("equipement", new Page("sword"));*/
+    } catch (e) {
+        console.log("New Exception : " + e);
+    }
+
 	infoPage.refreshData({
 		name: "Player",
 		title: "Level " + player.Level,
@@ -72,6 +76,7 @@ var Game = function(){
 	});
 	
 	this.mobList = [];
+	this.infoGUI = [];
   
 	/*setTimeout(function() {
      
@@ -100,7 +105,7 @@ var Game = function(){
 
 	var img_sound = new Image();
 	img_sound.src = imageRep + "sound_on.png";
-	$("#gui").append($("<div>").css({ position: "absolute", top: "10%", left: "95%" }).append(img_sound).click(function () {
+	$("#gui").append($("<div>").css({ position: "absolute", top: "5px", left: "95%" }).append(img_sound).click(function () {
 	    if (self.bSound) {
 	        img_sound.src = imageRep + "sound_off.png";
 	        self.bSound = false;
@@ -134,7 +139,6 @@ Game.prototype.setAmbientSound = function(sound){
 	}
 }
 Game.prototype.mainLoop = function () {
-    var self = this;
 	var now = Date.now();
 	var globalTimeDelta = now - this.globalTime;
 	var localTimeDelta = Math.min(50, globalTimeDelta);
@@ -158,7 +162,12 @@ Game.prototype.mainLoop = function () {
 
 		var bRenderPlayer = false;
 		
-		for(var i in this.mobList) {
+		for (var i in this.mobList) {
+		    if ($.CalculateDistance(this.mobList[i].x, this.mobList[i].y, player.x, player.y) < 200) {
+		        var j = i;
+		        this.mobList[j].attack(player, this.localTime);
+		        this.infoGUI.push(new InfoGUI(10, player, "damage"));
+		    }
             if(this.mobList[i].y < player.y) {
                 this.mobList[i].render(this.graphics);
             } else {
@@ -167,15 +176,16 @@ Game.prototype.mainLoop = function () {
 				}
                 this.mobList[i].render(this.graphics);
             }
-            if ($.CalculateDistance(this.mobList[i].x, this.mobList[i].y, player.x, player.y) < 100) {
-                setTimeout(function () {
-                    self.mobList[i].attack(player);
-                }, 2000);
-            }
         }
 		
 		if(!bRenderPlayer){
 			player.render(this.graphics);
+		}
+
+		for (var i in this.infoGUI) {
+		    if (this.infoGUI[i].alpha > 0)
+		        this.infoGUI[i].render(this.graphics);
+		    else this.infoGUI.splice(i, 1);
 		}
 
 		HUD.SetPosition(-camera.x, -camera.y);
@@ -192,7 +202,7 @@ Game.prototype.mainLoop = function () {
     }
 	
     infoPage.refreshData({
-        name: "Player",
+        name: player.name,
         title: "Level " + player.Level,
         xp: player.XP,
         hp: player.Health,

@@ -20,6 +20,7 @@ var Enemy = function(assetManager, level){
 		this.spriteList[i].setCenter(this.centerX, this.centerY);
 	}
  
+	this.lookAt = "down";
 	this.setSprite("idle-down");
 	this.setPosition(Enemy.MIN_X + Math.random() * (Enemy.MAX_X - Enemy.MIN_X), Enemy.MIN_Y + Math.random() * (Enemy.MAX_Y - Enemy.MIN_Y));
  
@@ -38,6 +39,8 @@ var Enemy = function(assetManager, level){
 	
 	this.range = 100;
 	this.experienceGain = 500;
+
+	this.lastTimeAttack = 0;
 };
 Enemy.MIN_Y = 1550;
 Enemy.MAX_Y = 1920;
@@ -57,8 +60,15 @@ Enemy.prototype.setPosition = function(x, y){
 	}
 };
 
-Enemy.prototype.attack = function (player) {
-    player.sufferDamages(10);
+Enemy.prototype.deplacement = function (x, y) {
+
+}
+
+Enemy.prototype.attack = function (player, currentTime) {
+    if (currentTime - this.lastTimeAttack >= 2000) {
+        player.sufferDamagesBy(10, this);
+        this.lastTimeAttack = currentTime;
+    }
 }
 
 Enemy.prototype.render = function(g){
