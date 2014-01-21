@@ -5,6 +5,7 @@ var Enemy = function(assetManager, level){
 	this.centerX = 26;
 	this.centerY = 26;
    
+<<<<<<< HEAD
 	/* Enemy sprite */
 	this.createSprite("attack", assetManager.getImage("goblin"), null, 208, 468, 3, 0, 4, 9, false);
 	this.createSprite("move", assetManager.getImage("goblin"), null, 208, 468, 4, 1, 4, 9, false);
@@ -15,6 +16,18 @@ var Enemy = function(assetManager, level){
 	this.createSprite("attack-down", assetManager.getImage("goblin"), null, 208, 468, 3, 6, 4, 9, false);
 	this.createSprite("move-down", assetManager.getImage("goblin"), null, 208, 468, 4, 7, 4, 9, false);
 	this.createSprite("idle-down", assetManager.getImage("goblin"), null, 208, 468, 2, 8, 4, 9, true);
+=======
+	/*this.createSprite("death", assetManager.getImage("goblin"), 208, 468, 14, 1, false);*/
+	this.createSprite("attack", assetManager.getImage("mob"), 208, 468, 3, 0, 4, 9, false);
+	this.createSprite("move", assetManager.getImage("mob"), 208, 468, 4, 1, 4, 9, false);
+	this.createSprite("idle", assetManager.getImage("mob"), 208, 468, 2, 2, 4, 9, true);
+	this.createSprite("attack-up", assetManager.getImage("mob"), 208, 468, 3, 3, 4, 9, false);
+	this.createSprite("move-up", assetManager.getImage("mob"), 208, 468, 4, 4, 4, 9, false);
+	this.createSprite("idle-up", assetManager.getImage("mob"), 208, 468, 2, 5, 4, 9, true);
+	this.createSprite("attack-down", assetManager.getImage("mob"), 208, 468, 3, 6, 4, 9, false);
+	this.createSprite("move-down", assetManager.getImage("mob"), 208, 468, 4, 7, 4, 9, false);
+	this.createSprite("idle-down", assetManager.getImage("mob"), 208, 468, 2, 8, 4, 9, true);
+>>>>>>> 2a26c7b95392ffea9c0bd487c4f4b3c200bf9b52
  
 	for(var i in this.spriteList){
 		this.spriteList[i].setCenter(this.centerX, this.centerY);
@@ -29,7 +42,10 @@ var Enemy = function(assetManager, level){
 	}, 1000);
    
 	this.revertDirection = false;
+<<<<<<< HEAD
 	this.level = level;
+=======
+>>>>>>> 2a26c7b95392ffea9c0bd487c4f4b3c200bf9b52
 	this.gold = parseInt(Math.random() * 200);
 	
 	this.HealthMax = 20 + 10 * this.level;
@@ -59,13 +75,21 @@ Enemy.prototype.setPosition = function(x, y){
 
 Enemy.prototype.render = function(g){
 	g.save();
+<<<<<<< HEAD
 	g.translate(this.x-this.centerX, this.y-this.centerY - 5);
+=======
+	g.translate(this.x-this.centerX, this.y-this.centerY);
+>>>>>>> 2a26c7b95392ffea9c0bd487c4f4b3c200bf9b52
 	g.fillStyle = "red";
 	g.font = "bold 12px Arial";
 	g.fillText("Goblin lvl " + this.level,0,0);
 	g.fillRect(0, 5, 52, 5);
 	g.fillStyle = "green";
+<<<<<<< HEAD
 	g.fillRect(0, 5, 52 * parseFloat(this.Health/this.HealthMax), 5);
+=======
+	g.fillRect(0, 0, 52 * parseFloat(this.Health/this.HealthMax), 5);
+>>>>>>> 2a26c7b95392ffea9c0bd487c4f4b3c200bf9b52
 	g.restore();
 	Character.prototype.render.call(this, g);
 }

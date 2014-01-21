@@ -75,7 +75,11 @@ var Game = function(){
     }, 2000);*/
 	setInterval(function() {
 		if(self.mobList.length < 20) {
+<<<<<<< HEAD
 			tempo = new Enemy(self.assetManager, parseInt(Math.random() * 5 + 1));
+=======
+			tempo = new Enemy(self.assetManager);
+>>>>>>> 2a26c7b95392ffea9c0bd487c4f4b3c200bf9b52
 			self.mobList.push(tempo);
 			self.mobList.sort(function(a, b) {
 				if(a.y < b.y) {
@@ -135,7 +139,11 @@ Game.prototype.mainLoop = function(){
 		var bRenderPlayer = false;
 		
 		for(var i in this.mobList) {
+<<<<<<< HEAD
             if(this.mobList[i].y < player.y) {
+=======
+            if(this.mobList[i].y > player.y) {
+>>>>>>> 2a26c7b95392ffea9c0bd487c4f4b3c200bf9b52
                 this.mobList[i].render(this.graphics);
             } else {
                 if(!bRenderPlayer){

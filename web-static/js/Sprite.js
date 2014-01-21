@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 var Sprite = function(id, image, image2, width, height, colCount, rowCount, colHeight, rowHeight, loop){
+=======
+<<<<<<< HEAD
+var Sprite = function(id, image, width, height, colCount, rowCount, rowHeight, loop){
+=======
+var Sprite = function(id, image, width, height, colCount, rowCount, loop){
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
+>>>>>>> 2a26c7b95392ffea9c0bd487c4f4b3c200bf9b52
 	this.id = id;
 	this.loop = loop;
 	this.image = image;
@@ -36,8 +44,17 @@ var Sprite = function(id, image, image2, width, height, colCount, rowCount, colH
 		width: this.imgWidth + 'px',
 		height: this.imgHeight + 'px'
 	});*/
+<<<<<<< HEAD
 	this.width = Math.round(this.imgWidth / colHeight);
 	this.height = Math.round(this.imgHeight / rowHeight);
+=======
+	this.width = Math.round(this.imgWidth / this.colCount);
+<<<<<<< HEAD
+	this.height = Math.round(this.imgHeight / this.rowHeight);
+=======
+	this.height = Math.round(this.imgHeight / this.rowCount);
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
+>>>>>>> 2a26c7b95392ffea9c0bd487c4f4b3c200bf9b52
 	//this.$elm.width(this.width).height(this.height).append(this.$img);
 };
 
@@ -139,7 +156,16 @@ Sprite.prototype.render = function(g, revert){
 	} else {
 		g.scale(1,1);
 	}
+<<<<<<< HEAD
 	//console.log("row : " + row + " col : " + col);
+=======
+	g.save();
+	if(revert) {
+		g.scale(-1,1);
+	} else {
+		g.scale(1,1);
+	}
+>>>>>>> f44e8c7b8e87d0d8e41a924507f677c054a0771b
 	g.drawImage(this.image, Math.round(this.width * col), Math.round(this.height * row), this.width, this.height, -this.centerX, -this.centerY, this.width, this.height);
 	if(this.image2){
 		g.drawImage(this.image2, Math.round(this.width * col), Math.round(this.height * row), this.width, this.height, -this.centerX, -this.centerY, this.width, this.height);
