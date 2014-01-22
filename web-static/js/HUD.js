@@ -46,6 +46,7 @@ HUD.prototype.render = function (g) {
     g.fillText(player.name, 56, 95);
     g.fillText(player.name, 55, 94);
     g.fillText(player.name, 55, 96);
+    //g.strokeText(player.name, 55, 95);
     g.fillStyle = "white";
     g.font = "bold 16px Arial";
     g.fillText(player.name, 55, 95);

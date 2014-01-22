@@ -163,11 +163,11 @@ Game.prototype.mainLoop = function () {
 		var bRenderPlayer = false;
 		
 		for (var i in this.mobList) {
-		    if ($.CalculateDistance(this.mobList[i].x, this.mobList[i].y, player.x, player.y) < 200) {
+		    //if ($.CalculateDistance(this.mobList[i].x, this.mobList[i].y, player.x, player.y) < 200) {
 		        var j = i;
-		        this.mobList[j].attack(player, this.localTime);
-		        this.infoGUI.push(new InfoGUI(10, player, "damage"));
-		    }
+		        this.mobList[j].deplacement(player, this.localTime, localTimeDelta / 1000);
+		        //this.infoGUI.push(new InfoGUI(10, player, "damage"));
+		    //}
             if(this.mobList[i].y < player.y) {
                 this.mobList[i].render(this.graphics);
             } else {

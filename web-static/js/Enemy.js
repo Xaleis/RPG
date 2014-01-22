@@ -4,6 +4,11 @@ var Enemy = function(assetManager, level){
    
 	this.centerX = 26;
 	this.centerY = 26;
+
+	this.speed = {
+	    x: 300,
+	    y: 200
+	};
    
 	/* Enemy sprite */
 	this.createSprite("attack", assetManager.getImage("goblin"), null, 208, 468, 3, 0, 4, 9, false);
@@ -60,14 +65,93 @@ Enemy.prototype.setPosition = function(x, y){
 	}
 };
 
-Enemy.prototype.deplacement = function (x, y) {
+Enemy.prototype.deplacement = function (player, localTime, deltaTime) {
+    var distance = Math.sqrt($.CalculateDistance(this.x, this.y, player.x, player.y));
+    var move = { x: 0, y: 0 };
 
+    if (distance > this.centerX && distance <= this.range) {
+        if (player.x < this.x) {
+            move.x = -1;
+            this.lookAt = "left";
+        } else if (player.x > this.x) {
+            move.x = 1;
+            this.lookAt = "right";
+        }
+        if (player.y < this.y) {
+            move.y = -1;
+            this.lookAt = "up";
+        } else if (player.y > this.y) {
+            move.y = 1;
+            this.lookAt = "down";
+        }
+        if (move.x != 0 || move.y != 0) {
+            this.move(move.x * this.speed.x * deltaTime, move.y * this.speed.y * deltaTime);
+            switch (this.lookAt) {
+                case "up":
+                    this.revertDirection = false;
+                    this.setSprite("move-up");
+                    break;
+                case "left":
+                    this.revertDirection = true;
+                    this.setSprite("move");
+                    break;
+                case "right":
+                    this.revertDirection = false;
+                    this.setSprite("move");
+                    break;
+                case "down":
+                    this.revertDirection = false;
+                    this.setSprite("move-down");
+                    break;
+            }
+        }
+    } else if (distance <= this.centerX) {
+        switch (this.lookAt) {
+            case "up":
+                this.revertDirection = false;
+                this.setSprite("attack-up");
+                break;
+            case "left":
+                this.revertDirection = true;
+                this.setSprite("attack");
+                break;
+            case "right":
+                this.revertDirection = false;
+                this.setSprite("attack");
+                break;
+            case "down":
+                this.revertDirection = false;
+                this.setSprite("attack-down");
+                break;
+        }
+        this.attack(player, localTime);
+    } else {
+        switch (this.lookAt) {
+            case "up":
+                this.revertDirection = false;
+                this.setSprite("idle-up");
+                break;
+            case "left":
+                this.revertDirection = true;
+                this.setSprite("idle");
+                break;
+            case "right":
+                this.revertDirection = false;
+                this.setSprite("idle");
+                break;
+            case "down":
+                this.revertDirection = false;
+                this.setSprite("idle-down");
+                break;
+        }
+    }
 }
 
 Enemy.prototype.attack = function (player, currentTime) {
     if (currentTime - this.lastTimeAttack >= 2000) {
         player.sufferDamagesBy(10, this);
         this.lastTimeAttack = currentTime;
+        game.infoGUI.push(new InfoGUI(10, player, "damage"));
     }
 }
 
