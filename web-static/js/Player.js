@@ -25,6 +25,7 @@ var Player = function(assetManager, xOrigin, yOrigin){
 	this.XPGatheredForNextLevel = 0; // Amount of XP gathered for the next level
 	this.XPRequiredForNextLevel = 0; // Amount of XP required for the next level
 	this.experience = 0;
+	this.isDead = false;
 
 	this.centerX = 32;
 	this.centerY = 32;
@@ -123,19 +124,22 @@ Player.prototype.update = function(deltaTime){
 				case "113", "81":
 					move.x = -1;
 					this.lookAt = "left";
-				break;
+				    break;
 				case "115", "83":
 					move.y = 1;
 					this.lookAt = "down";
-				break;
+				    break;
 				case "100", "68":
 					move.x = 1;
 					this.lookAt = "right";
-				break;
+				    break;
 				case "122", "90":
 					move.y = -1;
 					this.lookAt = "up";
-				break;
+					break;
+			    case "27":
+			        game.Pause();
+			        break;
 			}
 		}
 	}
@@ -253,7 +257,8 @@ Player.prototype.sufferDamagesBy = function(damage, enemy){
 
 Player.prototype.DeadPlayer = function()
 {
-    this.Health = this.HealthMax;
+    /* Mode sans Game Over */
+    /*this.Health = this.HealthMax;
     this.XP = this.XP - (this.Level * 100);
     if(this.Level == 1 && this.XP < 0)
     {
@@ -267,13 +272,17 @@ Player.prototype.DeadPlayer = function()
         this.CalculateLevelProgress();
     }
 
+    this.setPosition(this.xOrigin, this.yOrigin);
+    this.render(game.graphics);*/
+
     if (game.bSound) {
         var sound = game.assetManager.getSound("death");
         sound.play();
     }
 
-    this.setPosition(this.xOrigin, this.yOrigin);
-    this.render(game.graphics);
+    /* Mode avec Game Over */
+    this.isDead = true;
+    game.gameEnabled = false;
 };
 
 Player.prototype.GiveXP = function(amount)

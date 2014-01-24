@@ -59,7 +59,7 @@
 	height: 100%;
 }
 dl{
-	margin: 10px;
+	margin: 20px;
 }
 dl > *{
 	margin: 2px 0px;
@@ -76,5 +76,6 @@ dt:after{
 	content: " :";
 }
 dd{
-	float: left;
+	margin-right: 75px;
+	float: right;
 }
